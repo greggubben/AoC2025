@@ -1,11 +1,29 @@
 #
 # Advent of Code Template
 #
+import argparse
 import sys
 import time
 from datetime import datetime
 
+#
+# Define the arguments for today's puzzle
+# Default:
+#   filename as the puzzle input
+#   verbose for printing extra information
+#
+parser = argparse.ArgumentParser(
+                    description='Advent of Code template.')
+#                    epilog='Text at the bottom of help')
+parser.add_argument('filename')
+parser.add_argument('-d', '--debug',
+                    action='store_true',
+                    help='print extra information while running')
+
+
+#
 # Global Variables
+#
 
 class COLOR:
    BLACK = '\033[30m'
@@ -30,7 +48,7 @@ class COLOR:
 #
 # Print only if debugging
 #
-DEBUG = True
+DEBUG = False
 def debugPrint(s=""):
     if DEBUG:
         print(s)
@@ -58,44 +76,47 @@ def loadData(filename):
 def printLines(lines):
 
     for line in lines:
-      print(line)
+      debugPrint(line)
 
 
 #
 # Main
 #
 def main():
+    global DEBUG
 
-    args = sys.argv[1:]
-    if len(args) != 1:
-        print("Usage: " + sys.argv[0] + " inputfile");
-        return
-    filename = args[0]
-    print("Input File:", filename)
+    args = parser.parse_args()
+    
+    filename = args.filename
+    print(f"Input File: {filename}")
+    
+    DEBUG = args.debug
+    print(f"     Debug: {DEBUG}")
+
     print()
 
     # Load data
     lines = loadData(filename)
-    print("Lines Read: ", len(lines))
-    print()
+    debugPrint(f"Lines Read: {len(lines)}")
+    debugPrint()
     printLines(lines)
 
     # Do Part 1 work
     print()
     answer = "X"
     print()
-    print("{}Part 1 Answer: {}{}{}".format(COLOR.CYAN, COLOR.YELLOW, answer, COLOR.END))
+    print(f"{COLOR.CYAN}Part 1 Answer: {COLOR.YELLOW}{answer}{COLOR.END}")
 
     # Do Part 2 work
     #print()
     answer = "X"
     #print()
-    #print("{}Part 2 Answer: {}{}{}".format(COLOR.CYAN, COLOR.YELLOW, answer, COLOR.END))
+    #print(f"{COLOR.CYAN}Part 2 Answer: {COLOR.YELLOW}{answer}{COLOR.END}")
 
 
 if __name__ == "__main__":
     now = datetime.now()
-    print("Started at:", now.strftime("%Y-%m-%d %H:%M:%S"))
+    print(f"Started at: {now.strftime("%Y-%m-%d %H:%M:%S")}")
     print()
 
     start = time.perf_counter()
@@ -127,4 +148,4 @@ if __name__ == "__main__":
     print()
     print(f"Elapsed time: {elapsedTimeStr}")
     now = datetime.now()
-    print("Ended at:", now.strftime("%Y-%m-%d %H:%M:%S"))
+    print(f"Ended at: {now.strftime("%Y-%m-%d %H:%M:%S")}")
